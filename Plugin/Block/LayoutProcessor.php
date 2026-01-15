@@ -216,9 +216,9 @@ class LayoutProcessor
             $region_id = $jsLayoutResult['components']['checkout']['children']['steps']['children']['shipping-step']
             ['children']['shippingAddress']['children']['billing-address']['children']['form-fields']['children']['region_id'];
 
-            $region_id['label'] = new \Magento\Framework\Phrase('');
+            $region_id['label'] = '';
             $region_id['sortOrder'] = '50';
-            $region_id['placeholder'] = __('');
+            $region_id['placeholder'] = '';
             $region_id['component'] = 'IWD_Opc/js/form/billing-address/element/region';
             $region_id['config']['template'] = 'IWD_Opc/form/field';
             $region_id['config']['elementTmpl'] = 'IWD_Opc/form/billing-address/element/select';
