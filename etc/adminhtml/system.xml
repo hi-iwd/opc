@@ -1,241 +1,330 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:Backend/etc/system_file.xsd">
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <tab id="dominate" translate="label" sortOrder="999998" class="iwd-extensions-tab">
-            <label>Dominate</label>
+        <tab id="iwd" translate="label" sortOrder="400">
+            <label>IWD</label>
         </tab>
-        <section id="iwd_opc" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-            <label>Checkout</label>
-            <tab>dominate</tab>
-            <resource>IWD_Opc::system_config</resource>
-            <group id="general" translate="label" type="text"
-                   sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="iwd_osc" translate="label" type="text" sortOrder="10"
+                 showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>One Page Checkout</label>
+            <tab>iwd</tab>
+            <resource>IWD_OneStepCheckout::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10"
+                   showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General</label>
-                <field id="version" translate="label" type="text"
-                       sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Version</label>
-                    <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Version</frontend_model>
-                </field>
-                <field id="documentation" translate="label" type="text"
-                       sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Documentation</label>
-                    <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Documentation</frontend_model>
-                </field>
-                <field id="enable" translate="label" type="select"
-                       sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Enable Module?</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable One Page Checkout</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[When disabled, the storefront checkout is byte-for-byte native Magento. This module is also automatically inert on stores running Hyvä Checkout.]]></comment>
                 </field>
-            </group>
-            <group id="extended" translate="label" type="text"
-                   sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Default Configurations</label>
-                <field id="title" translate="label" type="text"
-                       sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Meta Title</label>
-                </field>
-                <field id="use_iwd_checkout_experience" translate="label comment" type="select"
-                       sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>IWD Login/Account Creation Checkout Experience</label>
-                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
-                    <comment><![CDATA[If enabled, users will be able to checkout without logging in.  Existing customers will have the order associated with their account, while guests will have an account created for them. <br><br> If disabled, checkout will follow default Magento guest checkout user flow.]]></comment>
-                </field>
-                <field id="show_discount" translate="label" type="select"
-                       sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Show discount form?</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="show_comment" translate="label" type="select"
-                       sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Show comment field?</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="show_subscribe" translate="label" type="select"
-                       sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Show Subscribe to Newsletter?</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="default_shipping_method" translate="label comment" type="select"
-                       sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Default Shipping Method</label>
-                    <source_model>IWD\Opc\Model\Config\Source\Shipping</source_model>
-                </field>
-                <field id="default_payment_method" translate="label" type="select"
-                       sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Default Payment Method</label>
-                    <source_model>IWD\Opc\Model\Config\Source\Payment</source_model>
-                </field>
-                <field id="gm_autocomplete" translate="label" type="select"
-                       sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Enable Google Maps Autocomplete</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="gm_apikey" translate="label comment" type="text"
-                       sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Google Maps API Key</label>
-                    <comment><![CDATA[ For more information <a href="https://developers.google.com/maps/documentation/javascript/get-api-key">see</a>]]></comment>
+                <field id="layout_mode" translate="label comment" type="select" sortOrder="15"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Layout Mode</label>
+                    <source_model>IWD\OneStepCheckout\Model\Config\Source\LayoutMode</source_model>
                     <depends>
-                        <field id="gm_autocomplete">1</field>
+                        <field id="enabled">1</field>
                     </depends>
-                    <validate>required-entry</validate>
+                    <comment><![CDATA[One Page = all sections on one screen with auto-save. Multi-Step = native multi-step flow.]]></comment>
                 </field>
-            </group>
-            <group id="restrict_payment" translate="label" type="text"
-                   sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Restrict Payment Methods by Group</label>
-                <field id="enable" translate="label" type="select"
-                       sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Enable?</label>
+                <field id="auto_save_shipping" translate="label comment" type="select" sortOrder="20"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Auto-Save Shipping (no Next button)</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="layout_mode">one_page</field>
+                    </depends>
+                    <comment><![CDATA[Saves the shipping address and loads payment automatically once the address and a delivery method are complete - the native "Next" button is hidden. Each save is gated on Magento's own validators. Turn OFF on stores using extensions that add required shipping fields (e.g. ShipperHQ, freight) if auto-save fires before those fields are ready.]]></comment>
                 </field>
-                <field id="methods" translate="label" type="select"
-                       sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Restrict Payments</label>
-                    <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\RestrictPayment</frontend_model>
-                    <backend_model>IWD\Opc\Model\Config\Backend\RestrictPayment</backend_model>
+                <field id="relocatable_methods" translate="label comment" type="text" sortOrder="25"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Relocatable Payment Methods</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="layout_mode">one_page</field>
+                    </depends>
+                    <comment><![CDATA[Comma-separated payment method codes whose Place Order action moves to the order-summary button. Any method NOT listed keeps its own native button, so SDK, express and 3-D Secure flows are never bypassed. Only add a method after verifying its checkout flow works from the summary button.]]></comment>
                 </field>
             </group>
-            <group id="design" translate="label" type="text"
-                   sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Customize Checkout Design</label>
-                <group id="layout" translate="label" type="text"
-                       sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Layouts</label>
-                    <field id="desktop" translate="label" type="select"
-                           sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Design for Desktop Resolution</label>
-                        <source_model>IWD\Opc\Block\Adminhtml\System\Config\Layout\Resolution\Desktop</source_model>
-                    </field>
-                    <field id="tablet" translate="label" type="select"
-                           sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Design for Tablet Resolution</label>
-                        <source_model>IWD\Opc\Block\Adminhtml\System\Config\Layout\Resolution\Tablet</source_model>
-                    </field>
-                    <field id="mobile" translate="label" type="select"
-                           sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Design for Mobile Resolution</label>
-                        <source_model>IWD\Opc\Block\Adminhtml\System\Config\Layout\Resolution\Mobile</source_model>
-                    </field>
-<!--                    <field id="address_type_order" translate="label" type="select"-->
-<!--                           sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">-->
-<!--                        <label>Address Forms Order</label>-->
-<!--                        <source_model>IWD\Opc\Block\Adminhtml\System\Config\Layout\Address\FormOrder</source_model>-->
-<!--                    </field>-->
-                </group>
-                <group id="style" translate="label" type="text"
-                       sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Font &amp; Colors</label>
-                    <field id="font" translate="label" type="select"
-                           sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Font Family</label>
-                        <source_model>IWD\Opc\Block\Adminhtml\System\Config\Style\Font</source_model>
-                    </field>
-                    <field id="page_background" translate="label" type="text"
-                           sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Page Background</label>
-                        <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                        <comment><![CDATA[This color will be applied to the Checkout Page Background.]]></comment>
-                    </field>
-                    <field id="sidebar_background" translate="label" type="text"
-                           sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Sidebar Background</label>
-                        <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                        <comment><![CDATA[This color will be applied to the Checkout Right Sidebar Background.]]></comment>
-                    </field>
-                    <field id="heading_text_color" translate="label" type="text"
-                           sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Heading Text Color</label>
-                        <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                        <comment><![CDATA[This color will be applied to Headings and Titles.]]></comment>
-                    </field>
-                    <field id="body_text_color" translate="label" type="text"
-                           sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Body Text Color</label>
-                        <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                        <comment><![CDATA[This color will be applied to any Body or Informational Text.]]></comment>
-                    </field>
-                    <field id="link_color" translate="label" type="text"
-                           sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Link Color</label>
-                        <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                        <comment><![CDATA[This color will be applied to all Links on the Checkout Page.]]></comment>
-                    </field>
-                    <field id="input_highlight_color" translate="label" type="text"
-                           sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Highlight Color</label>
-                        <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                        <comment><![CDATA[This color will be applied to Highlight Chosen Options and Focus Input Fields.]]></comment>
-                    </field>
-                    <field id="primary_btn_background" translate="label" type="text"
-                           sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Primary Button Background</label>
-                        <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                        <comment><![CDATA[This color will be applied to Primary Action Buttons Background.<br/>
-                                    Ex: Continue To Delivery Method, Continue To Payment, Place Order.]]></comment>
-                    </field>
-                    <field id="primary_btn_text_color" translate="label" type="text"
-                           sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Primary Button Text Color</label>
-                        <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                        <comment><![CDATA[This color will be applied to Primary Action Buttons Text.<br/>
-                                    Ex: Continue To Delivery Method, Continue To Payment, Place Order.]]></comment>
-                    </field>
-                    <field id="secondary_btn_background" translate="label" type="text"
-                           sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Secondary Button Background</label>
-                        <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                        <comment><![CDATA[This color will be applied to Secondary Action Buttons Background.<br/>
-                                    Ex: Log In, Reset, Apply a Promo Code.]]></comment>
-                    </field>
-                    <field id="secondary_btn_text_color" translate="label" type="text"
-                           sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Secondary Button Text Color</label>
-                        <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                        <comment><![CDATA[This color will be applied to Secondary Action Buttons Text.<br/>
-                                    Ex: Log In, Reset, Apply a Promo Code.]]></comment>
-                    </field>
-                    <group id="breadcrumbs" translate="label" type="text"
-                           sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Breadcrumbs</label>
-                        <field id="item_color" translate="label" type="text"
-                               sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Item Text Color</label>
-                            <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                            <comment><![CDATA[This color will be applied to item text.]]></comment>
-                        </field>
-                        <field id="item_background" translate="label" type="text"
-                               sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Item Arrow Color</label>
-                            <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                            <comment><![CDATA[This color will be applied to arrow under text.]]></comment>
-                        </field>
-                        <field id="active_item_color" translate="label" type="text"
-                               sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Active Item Text Color</label>
-                            <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                            <comment><![CDATA[This color will be applied to active item text.]]></comment>
-                        </field>
-                        <field id="active_item_background" translate="label" type="text"
-                               sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Active Item Arrow Color</label>
-                            <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                            <comment><![CDATA[This color will be applied to arrow under text with active step.]]></comment>
-                        </field>
-                        <field id="completed_item_color" translate="label" type="text"
-                               sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Completed Item Text Color</label>
-                            <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                            <comment><![CDATA[This color will be applied to completed item text.]]></comment>
-                        </field>
-                        <field id="completed_item_background" translate="label" type="text"
-                               sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Completed Item Arrow Color</label>
-                            <frontend_model>IWD\Opc\Block\Adminhtml\System\Config\Style\ColorPicker</frontend_model>
-                            <comment><![CDATA[This color will be applied to arrow under text with completed step.]]></comment>
-                        </field>
-                    </group>
-                </group>
+            <group id="features" translate="label" type="text" sortOrder="20"
+                   showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Features</label>
+                <field id="order_comment" translate="label comment" type="select" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Order Comment Field</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Show an "Order notes" field in payment; saved to the order.</comment>
+                    <depends>
+                        <field id="iwd_osc/general/enabled">1</field>
+                    </depends>
+                </field>
+                <field id="newsletter" translate="label comment" type="select" sortOrder="20"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Newsletter Subscribe Checkbox</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Show a newsletter opt-in checkbox; subscribes the email after the order is placed.</comment>
+                    <depends>
+                        <field id="iwd_osc/general/enabled">1</field>
+                    </depends>
+                </field>
+                <field id="guest_to_customer" translate="label comment" type="select" sortOrder="30"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Create Account for Guests After Checkout</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Automatically create a customer account from a guest order after it is placed.</comment>
+                    <depends>
+                        <field id="iwd_osc/general/enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="legal" translate="label comment" type="text" sortOrder="25"
+                   showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Legal Links</label>
+                <comment><![CDATA[CMS pages linked from the checkout footnote line. Leave a field blank to show that label as plain text (no link).]]></comment>
+                <field id="terms_cms_page" translate="label comment" type="text" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Terms of Service Page</label>
+                    <comment><![CDATA[CMS page URL key for "Terms of Service" (for example <code>terms-and-conditions</code>).]]></comment>
+                    <depends>
+                        <field id="iwd_osc/general/enabled">1</field>
+                    </depends>
+                </field>
+                <field id="privacy_cms_page" translate="label comment" type="text" sortOrder="20"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Privacy Policy Page</label>
+                    <comment><![CDATA[CMS page URL key for "Privacy Policy" (for example <code>privacy-policy-cookie-restriction-mode</code>).]]></comment>
+                    <depends>
+                        <field id="iwd_osc/general/enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="content" translate="label comment" type="text" sortOrder="27"
+                   showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Checkout Text &amp; Labels</label>
+                <comment><![CDATA[Override the checkout copy per store view. Leave a field blank to keep the built-in (translatable) default shown in its hint.]]></comment>
+                <field id="contact_hint_guest" translate="label comment" type="text" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Contact hint (guest)</label>
+                    <comment><![CDATA[Default: <em>Order confirmation only · no spam</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="contact_hint_customer" translate="label comment" type="text" sortOrder="20"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Contact hint (signed in)</label>
+                    <comment><![CDATA[Default: <em>Order updates go to your account email</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="create_account_label" translate="label comment" type="text" sortOrder="30"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Create-account checkbox label</label>
+                    <comment><![CDATA[Default: <em>You can create an account after checkout</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="newsletter_label" translate="label comment" type="text" sortOrder="40"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Newsletter checkbox label</label>
+                    <comment><![CDATA[Default: <em>Email me news and exclusive offers</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="order_notes_label" translate="label comment" type="text" sortOrder="50"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Order-notes field label</label>
+                    <comment><![CDATA[Default: <em>Order notes (optional)</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="secure_badge" translate="label comment" type="text" sortOrder="60"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Summary secure badge</label>
+                    <comment><![CDATA[Under the Place Order button. Default: <em>Encrypted &amp; secure checkout</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="footnote_legal" translate="label comment" type="textarea" sortOrder="70"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Footnote legal line (auto-save on)</label>
+                    <comment><![CDATA[<strong>%1</strong> = Terms link, <strong>%2</strong> = Privacy link. Default: <em>By placing your order, you agree to our %1 and acknowledge our %2. All shipping and payment details are saved automatically as you complete each section · no Next button.</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="footnote_legal_plain" translate="label comment" type="textarea" sortOrder="80"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Footnote legal line (auto-save off)</label>
+                    <comment><![CDATA[%1 = Terms link, %2 = Privacy link. Default: <em>By placing your order, you agree to our %1 and acknowledge our %2.</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="footnote_legal_compact" translate="label comment" type="textarea" sortOrder="90"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Footnote legal line - mobile (auto-save on)</label>
+                    <comment><![CDATA[%1 = Terms link, %2 = Privacy link. Default: <em>Auto-saved as you typed. By placing your order you agree to our %1 and %2.</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="footnote_legal_compact_plain" translate="label comment" type="textarea" sortOrder="100"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Footnote legal line - mobile (auto-save off)</label>
+                    <comment><![CDATA[%1 = Terms link, %2 = Privacy link. Default: <em>By placing your order you agree to our %1 and %2.</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="trust_ssl" translate="label comment" type="text" sortOrder="110"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Trust badge 1</label>
+                    <comment><![CDATA[Default: <em>SSL encrypted checkout</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="trust_autosave" translate="label comment" type="text" sortOrder="120"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Trust badge 2 (auto-save)</label>
+                    <comment><![CDATA[Default: <em>Your details auto-save as you type</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="trust_secure" translate="label comment" type="text" sortOrder="130"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Trust badge 3</label>
+                    <comment><![CDATA[Default: <em>Safe &amp; secure payment</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="locked_title" translate="label comment" type="text" sortOrder="140"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Payment-locked title</label>
+                    <comment><![CDATA[Default: <em>Payment options will appear here</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="locked_body" translate="label comment" type="textarea" sortOrder="150"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Payment-locked text (auto-save on)</label>
+                    <comment><![CDATA[<strong>%1</strong> = shipping-address term, <strong>%2</strong> = delivery-method term (both bold). Default: <em>Complete your %1 and pick a %2 above. Payment options load automatically once your shipping is saved · no Next button.</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="locked_body_plain" translate="label comment" type="textarea" sortOrder="160"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Payment-locked text (auto-save off)</label>
+                    <comment><![CDATA[%1 = shipping-address term, %2 = delivery-method term (both bold). Default: <em>Complete your %1 and pick a %2 above. Payment options appear once your shipping is saved.</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="locked_link_shipping" translate="label comment" type="text" sortOrder="162"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Payment-locked bold term %1</label>
+                    <comment><![CDATA[The bold shipping term in the text above. Default: <em>shipping address</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="locked_link_delivery" translate="label comment" type="text" sortOrder="164"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Payment-locked bold term %2</label>
+                    <comment><![CDATA[The bold delivery term in the text above. Default: <em>delivery method</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="locked_step_contact" translate="label comment" type="text" sortOrder="170"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Payment-locked step 1</label>
+                    <comment><![CDATA[Default: <em>Contact</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="locked_step_shipping" translate="label comment" type="text" sortOrder="180"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Payment-locked step 2</label>
+                    <comment><![CDATA[Default: <em>Shipping address</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="locked_step_delivery" translate="label comment" type="text" sortOrder="190"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Payment-locked step 3</label>
+                    <comment><![CDATA[Default: <em>Delivery method</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="locked_status" translate="label comment" type="text" sortOrder="200"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Payment-locked step status</label>
+                    <comment><![CDATA[Shown on the in-progress step. Default: <em>in progress</em>]]></comment>
+                    <depends><field id="iwd_osc/general/enabled">1</field></depends>
+                </field>
+                <field id="ms_subtitle_information" translate="label comment" type="textarea" sortOrder="210"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Multi-step: Information subtitle</label>
+                    <comment><![CDATA[Under the "01 Information" heading. Default: <em>Tell us where to send your order. We'll send your receipt to the email you provide.</em>]]></comment>
+                    <depends>
+                        <field id="iwd_osc/general/enabled">1</field>
+                        <field id="iwd_osc/general/layout_mode">multi_step</field>
+                    </depends>
+                </field>
+                <field id="ms_subtitle_shipping" translate="label comment" type="textarea" sortOrder="220"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Multi-step: Shipping method subtitle</label>
+                    <comment><![CDATA[Under the "02 Shipping method" heading. Default: <em>Choose how you'd like your order delivered.</em>]]></comment>
+                    <depends>
+                        <field id="iwd_osc/general/enabled">1</field>
+                        <field id="iwd_osc/general/layout_mode">multi_step</field>
+                    </depends>
+                </field>
+                <field id="ms_subtitle_payment" translate="label comment" type="textarea" sortOrder="230"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Multi-step: Payment subtitle</label>
+                    <comment><![CDATA[Under the "03 Payment" heading. Default: <em>All transactions are secure and encrypted. We never store your full card number.</em>]]></comment>
+                    <depends>
+                        <field id="iwd_osc/general/enabled">1</field>
+                        <field id="iwd_osc/general/layout_mode">multi_step</field>
+                    </depends>
+                </field>
+                <field id="ms_trust_ssl" translate="label comment" type="text" sortOrder="240"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Multi-step: Trust item 1</label>
+                    <comment><![CDATA[Footer trust row. Default: <em>256-bit SSL encrypted</em>]]></comment>
+                    <depends>
+                        <field id="iwd_osc/general/enabled">1</field>
+                        <field id="iwd_osc/general/layout_mode">multi_step</field>
+                    </depends>
+                </field>
+                <field id="ms_trust_returns" translate="label comment" type="text" sortOrder="250"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Multi-step: Trust item 2</label>
+                    <comment><![CDATA[Footer trust row. Default: <em>Free returns within 30 days</em>]]></comment>
+                    <depends>
+                        <field id="iwd_osc/general/enabled">1</field>
+                        <field id="iwd_osc/general/layout_mode">multi_step</field>
+                    </depends>
+                </field>
+                <field id="ms_trust_protection" translate="label comment" type="text" sortOrder="260"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Multi-step: Trust item 3</label>
+                    <comment><![CDATA[Footer trust row. Default: <em>Buyer protection guarantee</em>]]></comment>
+                    <depends>
+                        <field id="iwd_osc/general/enabled">1</field>
+                        <field id="iwd_osc/general/layout_mode">multi_step</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="design" translate="label comment" type="text" sortOrder="30"
+                   showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Design</label>
+                <comment><![CDATA[Optional colour overrides (hex, e.g. <code>#0f1115</code>). Leave blank to use the default Variant E palette.]]></comment>
+                <field id="primary_color" translate="label" type="text" sortOrder="10"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Primary Color (buttons &amp; selected state)</label>
+                    <frontend_model>IWD\OneStepCheckout\Block\Adminhtml\System\Config\Form\Field\ColorPicker</frontend_model>
+                </field>
+                <field id="accent_color" translate="label" type="text" sortOrder="20"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Accent Color (links)</label>
+                    <frontend_model>IWD\OneStepCheckout\Block\Adminhtml\System\Config\Form\Field\ColorPicker</frontend_model>
+                </field>
+                <field id="text_color" translate="label" type="text" sortOrder="30"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Text Color</label>
+                    <frontend_model>IWD\OneStepCheckout\Block\Adminhtml\System\Config\Form\Field\ColorPicker</frontend_model>
+                </field>
+                <field id="border_color" translate="label" type="text" sortOrder="40"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Border Color (hairlines &amp; cards)</label>
+                    <frontend_model>IWD\OneStepCheckout\Block\Adminhtml\System\Config\Form\Field\ColorPicker</frontend_model>
+                </field>
+                <field id="summary_bg" translate="label" type="text" sortOrder="50"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Summary Background</label>
+                    <frontend_model>IWD\OneStepCheckout\Block\Adminhtml\System\Config\Form\Field\ColorPicker</frontend_model>
+                </field>
+                <field id="font_family" translate="label comment" type="text" sortOrder="60"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Font Family</label>
+                    <comment><![CDATA[Optional CSS font stack for the checkout, e.g. <code>Poppins, Helvetica, sans-serif</code>. The font itself must be available (theme or web-font). Leave blank to inherit the theme font.]]></comment>
+                </field>
             </group>
         </section>
     </system>

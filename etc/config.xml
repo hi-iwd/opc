@@ -1,55 +1,26 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <iwd_opc>
+        <iwd_osc>
             <general>
-                <enable>0</enable>
-                <checkout_suite_design>1</checkout_suite_design>
+                <enabled>1</enabled>
+                <layout_mode>one_page</layout_mode>
+                <auto_save_shipping>1</auto_save_shipping>
+                <relocatable_methods>checkmo,banktransfer,purchaseorder,cashondelivery,free,paradoxlabs_authnetcim</relocatable_methods>
             </general>
-            <extended>
-                <title>Checkout</title>
-                <use_iwd_checkout_experience>1</use_iwd_checkout_experience>
-                <show_discount>1</show_discount>
-                <show_comment>1</show_comment>
-                <show_gift_message>1</show_gift_message>
-                <show_subscribe>1</show_subscribe>
-                <subscribe_by_default>0</subscribe_by_default>
-                <payment_title_type>logo_title</payment_title_type>
-                <reload_shipping_methods_on_discount>0</reload_shipping_methods_on_discount>
-                <show_all_ship_methods>0</show_all_ship_methods>
-            </extended>
-            <restrict_payment>
-                <enable>0</enable>
-            </restrict_payment>
-            <design>
-                <layout>
-                    <desktop>onepage</desktop>
-                    <mobile>onepage</mobile>
-                    <tablet>onepage</tablet>
-                    <address_type_order>shipping_first</address_type_order>
-                </layout>
-                <style>
-                    <font_family>Open+Sans</font_family>
-                    <page_background>FFFFFF</page_background>
-                    <sidebar_background>F5F5F5</sidebar_background>
-                    <heading_text_color>000000</heading_text_color>
-                    <body_text_color>333333</body_text_color>
-                    <link_color>006BB4</link_color>
-                    <input_highlight_color>00699B</input_highlight_color>
-                    <primary_btn_background>1979C3</primary_btn_background>
-                    <primary_btn_text_color>FFFFFF</primary_btn_text_color>
-                    <secondary_btn_background>333333</secondary_btn_background>
-                    <secondary_btn_text_color>FFFFFF</secondary_btn_text_color>
-                    <breadcrumbs>
-                        <item_color>707070</item_color>
-                        <item_background>AFAFAF</item_background>
-                        <active_item_color>151515</active_item_color>
-                        <active_item_background>9D1DE3</active_item_background>
-                        <completed_item_color>151515</completed_item_color>
-                        <completed_item_background>151515</completed_item_background>
-                    </breadcrumbs>
-                </style>
-            </design>
-        </iwd_opc>
+            <partners>
+                <paypal_bn_code/>
+            </partners>
+            <legal>
+                <terms_cms_page/>
+                <privacy_cms_page/>
+            </legal>
+            <features>
+                <order_comment>0</order_comment>
+                <newsletter>0</newsletter>
+                <guest_to_customer>0</guest_to_customer>
+            </features>
+        </iwd_osc>
     </default>
 </config>

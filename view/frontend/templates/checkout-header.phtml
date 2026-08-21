@@ -1,0 +1,43 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+declare(strict_types=1);
+
+/** @var \IWD\OneStepCheckout\ViewModel\CheckoutHeader $viewModel */
+$viewModel = $block->getData('view_model');
+
+if (!$viewModel || !$viewModel->isEnabled() || !$viewModel->isOnePage()) {
+    return;
+}
+
+$count = $viewModel->getItemsCount();
+$backLabel = $count === 1 ? __('Back to cart · 1 item') : __('Back to cart · %1 items', $count);
+?>
+<div class="iwd-osc-header">
+    <a class="iwd-osc-header__back" href="<?= $escaper->escapeUrl($viewModel->getBackUrl()) ?>">
+        <span class="iwd-osc-header__back-arrow" aria-hidden="true">&lsaquo;</span>
+        <?= $escaper->escapeHtml($backLabel) ?>
+    </a>
+    <h1 class="iwd-osc-header__title"><?= $escaper->escapeHtml(__('Checkout')) ?></h1>
+    <?php if ($viewModel->isLoggedIn()): ?>
+        <?php $firstName = $viewModel->getCustomerFirstName(); ?>
+        <p class="iwd-osc-header__welcome">
+            <?= $firstName !== ''
+                ? $escaper->escapeHtml(__('Welcome back, %1', $firstName))
+                : $escaper->escapeHtml(__('Welcome back')) ?>
+            <span class="iwd-osc-header__welcome-mobile"> <?= $escaper->escapeHtml(__('- your saved details are filled in below.')) ?></span>
+        </p>
+    <?php else: ?>
+        <p class="iwd-osc-header__signin">
+            <?= $escaper->escapeHtml(
+                __(
+                    'Returning customer? <a href="%1">Sign in</a> to use your saved details.',
+                    $viewModel->getSignInUrl()
+                ),
+                ['a']
+            ) ?>
+        </p>
+    <?php endif; ?>
+</div>

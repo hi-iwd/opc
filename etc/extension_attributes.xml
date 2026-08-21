@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
     <extension_attributes for="Magento\Quote\Api\Data\PaymentInterface">
-        <attribute code="comment" type="string" />
-        <attribute code="subscribe" type="bool" />
+        <attribute code="iwd_osc_comment" type="string"/>
+        <attribute code="iwd_osc_subscribe" type="boolean"/>
+        <attribute code="iwd_osc_create_account" type="boolean"/>
     </extension_attributes>
 </config>

@@ -1,0 +1,29 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+declare(strict_types=1);
+
+/** @var \IWD\OneStepCheckout\ViewModel\DesignConfig $viewModel */
+$viewModel = $block->getData('view_model');
+
+if (!$viewModel || !$viewModel->isEnabled()) {
+    return;
+}
+
+$tokens = $viewModel->getTokens();
+
+if (!$tokens) {
+    return;
+}
+
+$declarations = '';
+foreach ($tokens as $cssVar => $value) {
+    $declarations .= $cssVar . ':' . $value . ';';
+}
+
+$css = '.iwd-osc{' . $declarations . '}';
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('style', [], $css, false) ?>

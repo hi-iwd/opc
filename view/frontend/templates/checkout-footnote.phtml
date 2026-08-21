@@ -1,0 +1,70 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+declare(strict_types=1);
+
+/** @var \IWD\OneStepCheckout\ViewModel\CheckoutHeader $viewModel */
+$viewModel = $block->getData('view_model');
+
+if (!$viewModel || !$viewModel->isEnabled()) {
+    return;
+}
+
+$autoSave = $viewModel->isAutoSaveShipping();
+$isMultiStep = $viewModel->isMultiStep();
+$termsUrl = $viewModel->getTermsUrl();
+$privacyUrl = $viewModel->getPrivacyUrl();
+
+$termsFragment = $termsUrl !== ''
+    ? '<a href="' . $termsUrl . '">' . __('Terms of Service') . '</a>'
+    : (string)__('Terms of Service');
+$privacyFragment = $privacyUrl !== ''
+    ? '<a href="' . $privacyUrl . '">' . __('Privacy Policy') . '</a>'
+    : (string)__('Privacy Policy');
+
+$legal = __($viewModel->getLegalTemplate($autoSave), $termsFragment, $privacyFragment);
+
+$termsShort = $termsUrl !== ''
+    ? '<a href="' . $termsUrl . '">' . __('Terms') . '</a>'
+    : (string)__('Terms');
+$legalCompact = __($viewModel->getLegalCompactTemplate($autoSave), $termsShort, $privacyFragment);
+?>
+<div class="iwd-osc-footnote">
+    <?php if ($isMultiStep): ?>
+        <ul class="iwd-osc-footnote__trust">
+            <li class="iwd-osc-footnote__trust-item">
+                <svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 1a3.5 3.5 0 0 0-3.5 3.5V6H4a1.5 1.5 0 0 0-1.5 1.5v5A1.5 1.5 0 0 0 4 14h8a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 12 6h-.5V4.5A3.5 3.5 0 0 0 8 1Zm2 5H6V4.5a2 2 0 1 1 4 0V6Z"/></svg>
+                <?= $escaper->escapeHtml($viewModel->getMsTrustSsl()) ?>
+            </li>
+            <li class="iwd-osc-footnote__trust-item">
+                <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.3" d="M1.5 4h8v7h-8zM9.5 6h2.8l2.2 2.2V11h-5M4.3 12.7a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6Zm7.4 0a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6Z"/></svg>
+                <?= $escaper->escapeHtml($viewModel->getMsTrustReturns()) ?>
+            </li>
+            <li class="iwd-osc-footnote__trust-item">
+                <svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.3" d="M13.6 8a5.6 5.6 0 1 1-1.7-4M13.6 2v3.2h-3.2"/></svg>
+                <?= $escaper->escapeHtml($viewModel->getMsTrustProtection()) ?>
+            </li>
+        </ul>
+    <?php else: ?>
+    <p class="iwd-osc-footnote__legal iwd-osc-footnote__legal--full"><?= $escaper->escapeHtml($legal, ['a']) ?></p>
+    <p class="iwd-osc-footnote__legal iwd-osc-footnote__legal--compact"><?= $escaper->escapeHtml($legalCompact, ['a']) ?></p>
+    <ul class="iwd-osc-footnote__trust">
+        <li class="iwd-osc-footnote__trust-item">
+            <svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 1a3.5 3.5 0 0 0-3.5 3.5V6H4a1.5 1.5 0 0 0-1.5 1.5v5A1.5 1.5 0 0 0 4 14h8a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 12 6h-.5V4.5A3.5 3.5 0 0 0 8 1Zm2 5H6V4.5a2 2 0 1 1 4 0V6Z"/></svg>
+            <?= $escaper->escapeHtml($viewModel->getTrustSsl()) ?>
+        </li>
+        <?php if ($autoSave): ?>
+            <li class="iwd-osc-footnote__trust-item">
+                <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.3" d="M1.5 4h8v7h-8zM9.5 6h2.8l2.2 2.2V11h-5M4.3 12.7a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6Zm7.4 0a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6Z"/></svg>
+                <?= $escaper->escapeHtml($viewModel->getTrustAutoSave()) ?>
+            </li>
+        <?php endif; ?>
+        <li class="iwd-osc-footnote__trust-item">
+            <svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.3" d="M8 1.8 2.8 3.6v4.1c0 3.2 2.2 5.5 5.2 6.5 3-1 5.2-3.3 5.2-6.5V3.6L8 1.8Z"/><path fill="none" stroke="currentColor" stroke-width="1.3" d="m5.6 7.8 1.7 1.7 3.1-3.2"/></svg>
+            <?= $escaper->escapeHtml($viewModel->getTrustSecure()) ?>
+        </li>
+    </ul>
+    <?php endif; ?>
+</div>

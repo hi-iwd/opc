@@ -1,0 +1,14 @@
+<!-- ko if: isVisible -->
+<div class="iwd-osc-identity">
+    <span class="iwd-osc-identity__avatar" data-bind="text: initials"></span>
+    <div class="iwd-osc-identity__body">
+        <span class="iwd-osc-identity__name" data-bind="text: customerName"></span>
+        <span class="iwd-osc-identity__email" data-bind="text: customerEmail"></span>
+    </div>
+    <!-- ko if: signOutUrl -->
+    <a class="iwd-osc-identity__signout" data-bind="attr: {href: signOutUrl}">
+        <span data-bind="i18n: 'Not you? Sign out'"></span>
+    </a>
+    <!-- /ko -->
+</div>
+<!-- /ko -->

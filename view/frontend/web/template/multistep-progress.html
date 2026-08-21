@@ -1,0 +1,18 @@
+<ol class="iwd-osc-steps" data-bind="visible: isMultiStep()">
+    <!-- ko foreach: { data: steps, as: 'step' } -->
+    <li class="iwd-osc-steps__item"
+        data-bind="css: $parent.stepClass(step.code),
+                   attr: {
+                       role: $parent.canNavigate(step.code) ? 'button' : false,
+                       tabindex: $parent.canNavigate(step.code) ? 0 : false,
+                       'aria-current': $parent.stepClass(step.code) === '_active' ? 'step' : false
+                   },
+                   click: function () { return $parent.navigate(step); },
+                   event: { keydown: function (data, event) { return $parent.navigateKey(step, event); } }">
+        <span class="iwd-osc-steps__marker">
+            <span class="iwd-osc-steps__num" data-bind="text: $index() + 1"></span>
+        </span>
+        <span class="iwd-osc-steps__label" data-bind="i18n: step.label"></span>
+    </li>
+    <!-- /ko -->
+</ol>

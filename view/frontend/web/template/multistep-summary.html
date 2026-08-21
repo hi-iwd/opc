@@ -1,0 +1,41 @@
+<div class="iwd-osc-ms-summary" data-bind="visible: isMultiStep()">
+    <div class="iwd-osc-ms-summary__card" data-bind="visible: showInformation()">
+        <span class="iwd-osc-ms-summary__check" aria-hidden="true"></span>
+        <div class="iwd-osc-ms-summary__body">
+            <div class="iwd-osc-ms-summary__head">
+                <span class="iwd-osc-ms-summary__label" data-bind="i18n: 'Information'"></span>
+                <button type="button"
+                        class="iwd-osc-ms-summary__edit"
+                        data-bind="click: editInformation, i18n: 'Edit'"></button>
+            </div>
+            <dl class="iwd-osc-ms-summary__rows">
+                <div class="iwd-osc-ms-summary__row">
+                    <dt data-bind="i18n: 'Contact'"></dt>
+                    <dd data-bind="text: getContact()"></dd>
+                </div>
+                <div class="iwd-osc-ms-summary__row">
+                    <dt data-bind="i18n: 'Shipping to'"></dt>
+                    <dd data-bind="text: getAddress()"></dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    <div class="iwd-osc-ms-summary__card" data-bind="visible: showShippingMethod()">
+        <span class="iwd-osc-ms-summary__check" aria-hidden="true"></span>
+        <div class="iwd-osc-ms-summary__body">
+            <div class="iwd-osc-ms-summary__head">
+                <span class="iwd-osc-ms-summary__label" data-bind="i18n: 'Shipping method'"></span>
+                <button type="button"
+                        class="iwd-osc-ms-summary__edit"
+                        data-bind="click: editShipping, i18n: 'Edit'"></button>
+            </div>
+            <dl class="iwd-osc-ms-summary__rows">
+                <div class="iwd-osc-ms-summary__row">
+                    <dt data-bind="i18n: 'Method'"></dt>
+                    <dd data-bind="text: getMethod()"></dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+</div>

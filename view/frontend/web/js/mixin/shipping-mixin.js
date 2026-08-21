@@ -1,123 +1,102 @@
 define([
     'jquery',
     'underscore',
-    'Magento_Ui/js/form/form',
-    'ko',
-    'Magento_Customer/js/model/customer',
-    'Magento_Customer/js/model/address-list',
-    'Magento_Checkout/js/model/address-converter',
     'Magento_Checkout/js/model/quote',
-    'Magento_Checkout/js/action/create-shipping-address',
-    'Magento_Checkout/js/action/select-shipping-address',
-    'Magento_Checkout/js/action/create-billing-address',
-    'Magento_Checkout/js/action/select-billing-address',
-    'Magento_Checkout/js/action/set-shipping-information',
-    'Magento_Checkout/js/model/step-navigator',
-    'Magento_Checkout/js/checkout-data'
-], function(
-    $,
-    _,
-    Component,
-    ko,
-    customer,
-    addressList,
-    addressConverter,
-    quote,
-    createShippingAddress,
-    selectShippingAddress,
-    createBillingAddress,
-    selectBillingAddress,
-    setShippingInformationAction,
-    stepNavigator,
-    checkoutData
-) {
+    'mage/translate',
+    'IWD_OneStepCheckout/js/model/config',
+    'Magento_Ui/js/lib/view/utils/async'
+], function ($, _, quote, $t, config) {
     'use strict';
 
+    var DEBOUNCE_MS = 600,
+        SAVE_LOCK_MS = 1500;
+
     return function (Component) {
+        if (!config.isActiveAndOnePage()) {
+            return Component;
+        }
+
         return Component.extend({
-            defaults: {
-                template: 'IWD_Opc/address'
-            },
-            setShippingInformation: function () {
-                if (this.validateShippingInformation() && this.validateBillingInformation()) {
-                    setShippingInformationAction().done(
-                        function () {
-                            stepNavigator.next();
-                        }
-                    );
+            initialize: function () {
+                var self;
+
+                this._super();
+                self = this;
+
+                if (document.body && document.body.classList) {
+                    document.body.classList.add('iwd-osc-autosave');
                 }
-            },
-            validateBillingInformation: function() {
 
-                console.log('validateBillingInformation');
+                this.iwdSaving = false;
 
-                if($('[name="billing-address-same-as-shipping"]').is(":checked")) {
-                    if (this.isFormInline) {
-                        var shippingAddress = quote.shippingAddress();
-                        var addressData = addressConverter.formAddressDataToQuoteAddress(
-                            this.source.get('shippingAddress')
-                        );
-                        //Copy form data to quote shipping address object
-                        for (var field in addressData) {
-
-                            if (addressData.hasOwnProperty(field) &&
-                                shippingAddress.hasOwnProperty(field) &&
-                                typeof addressData[field] != 'function' &&
-                                _.isEqual(shippingAddress[field], addressData[field])
-                            ) {
-                                shippingAddress[field] = addressData[field];
-                            } else if (typeof addressData[field] != 'function' &&
-                                !_.isEqual(shippingAddress[field], addressData[field])) {
-                                shippingAddress = addressData;
-                                break;
-                            }
-                        }
-
-                        if (customer.isLoggedIn()) {
-                            shippingAddress.save_in_address_book = 1;
-                        }
-                        var newBillingAddress = createBillingAddress(shippingAddress);
-                        selectBillingAddress(newBillingAddress);
-                    } else {
-                        selectBillingAddress(quote.shippingAddress());
+                this.iwdAutoSave = _.debounce(function () {
+                    if (self.iwdSaving || !quote.shippingMethod()) {
+                        return;
                     }
 
-                    return true;
-                }
+                    if (typeof self.isNextBtnVisible === 'function' && !self.isNextBtnVisible()) {
+                        return;
+                    }
 
-                var selectedAddress = $('[name="billing_address_id"]').val();
-                if(selectedAddress) {
-                    var res = addressList.some(function (addressFromList) {
-                        if (selectedAddress == addressFromList.customerAddressId) {
-                            selectBillingAddress(addressFromList);
-                            return true;
-                        }
-                        return false;
+                    if (!self.iwdShippingLooksComplete()) {
+                        return;
+                    }
+
+                    self.iwdSaving = true;
+                    self.setShippingInformation();
+
+                    setTimeout(function () {
+                        self.iwdSaving = false;
+                    }, SAVE_LOCK_MS);
+                }, DEBOUNCE_MS);
+
+                quote.shippingMethod.subscribe(function () {
+                    self.iwdAutoSave();
+                });
+
+                $(document)
+                    .off('input.iwdOsc change.iwdOsc blur.iwdOsc', '#co-shipping-form :input')
+                    .on('input.iwdOsc change.iwdOsc blur.iwdOsc', '#co-shipping-form :input', function () {
+                        self.iwdAutoSave();
                     });
+                $.async('.action-show-popup', this, function (el) {
+                    el.setAttribute('data-iwd-hint', $t('Opens the address form'));
+                });
+                return this;
+            },
 
-                    return res;
-                }
+            iwdShippingLooksComplete: function () {
+                var email = document.querySelector('#customer-email'),
+                    form = document.querySelector('#co-shipping-form'),
+                    complete = true;
 
-                this.source.set('params.invalid', false);
-                this.source.trigger('billingAddress.data.validate');
-
-                if (this.source.get('params.invalid')) {
+                if (email && email.offsetParent !== null && !email.value) {
                     return false;
                 }
 
-                var addressData = this.source.get('billingAddress'),
-                    newBillingAddress;
-
-                if ($('#billing-save-in-address-book').is(":checked")) {
-                    addressData.save_in_address_book = 1;
+                if (!form) {
+                    return false;
                 }
 
-                newBillingAddress = createBillingAddress(addressData);
+                form.querySelectorAll('input, select, textarea').forEach(function (el) {
+                    var required;
 
-                selectBillingAddress(newBillingAddress);
+                    if (el.offsetParent === null) {
+                        return;
+                    }
 
-                return true;
+                    required = el.getAttribute('aria-required') === 'true'
+                        || el.classList.contains('required-entry')
+                        || (el.getAttribute('data-validate') || '').indexOf('required') !== -1
+                        || el.name === 'street[0]';
+
+                    if (required && !el.value) {
+                        complete = false;
+                    }
+                });
+
+                return complete;
             }
-        })
-    }
+        });
+    };
 });
