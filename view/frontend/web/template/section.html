@@ -1,0 +1,13 @@
+<div class="iwd-osc-section-header" data-bind="css: {'iwd-osc-section-header--flush': isFirst}">
+    <span class="iwd-osc-section-header__index" data-bind="text: number"></span>
+    <span class="iwd-osc-section-header__title" data-bind="text: title"></span>
+    <!-- ko if: badge -->
+    <span class="iwd-osc-section-header__badge" data-bind="text: badge, css: badgeClass"></span>
+    <!-- /ko -->
+    <!-- ko if: hint -->
+    <span class="iwd-osc-section-header__hint" data-bind="text: hint + zipSuffix(), css: hintClass"></span>
+    <!-- /ko -->
+    <!-- ko if: savedAddressLabel -->
+    <span class="iwd-osc-section-header__hint iwd-osc-section-header__hint--saved" data-bind="text: savedAddressLabel"></span>
+    <!-- /ko -->
+</div>

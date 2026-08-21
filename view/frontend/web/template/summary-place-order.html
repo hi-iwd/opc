@@ -1,0 +1,26 @@
+<div class="iwd-osc-place-order" data-bind="visible: showButton() || showHint()">
+    <!-- ko if: showButton -->
+    <button type="button"
+            class="action primary checkout iwd-osc-place-order__button"
+            data-bind="click: placeOrder">
+        <span class="iwd-osc-place-order__main">
+            <svg class="iwd-osc-place-order__lock" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M8 1a3.5 3.5 0 0 0-3.5 3.5V6H4a1.5 1.5 0 0 0-1.5 1.5v5A1.5 1.5 0 0 0 4 14h8a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 12 6h-.5V4.5A3.5 3.5 0 0 0 8 1Zm2 5H6V4.5a2 2 0 1 1 4 0V6Z"/>
+            </svg>
+            <span class="iwd-osc-place-order__label" data-bind="text: ctaLabel()"></span>
+        </span>
+        <!-- ko if: showNote -->
+        <span class="iwd-osc-place-order__note" data-bind="text: noteText"></span>
+        <!-- /ko -->
+    </button>
+    <p class="iwd-osc-place-order__secured">
+        <svg width="11" height="11" viewBox="0 0 16 16" aria-hidden="true" focusable="false" style="vertical-align:-1px;margin-right:4px">
+            <path fill="currentColor" d="M8 1a3.5 3.5 0 0 0-3.5 3.5V6H4a1.5 1.5 0 0 0-1.5 1.5v5A1.5 1.5 0 0 0 4 14h8a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 12 6h-.5V4.5A3.5 3.5 0 0 0 8 1Zm2 5H6V4.5a2 2 0 1 1 4 0V6Z"/>
+        </svg>
+        <span data-bind="text: secureBadge"></span>
+    </p>
+    <!-- /ko -->
+    <!-- ko if: showHint -->
+    <p class="iwd-osc-place-order__hint" data-bind="i18n: 'Complete your order using the payment button above.'"></p>
+    <!-- /ko -->
+</div>

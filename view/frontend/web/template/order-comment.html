@@ -1,0 +1,13 @@
+<!-- ko if: isVisible -->
+<div class="iwd-osc-order-comment field">
+    <label class="label" for="iwd-osc-comment">
+        <span data-bind="text: label"></span>
+    </label>
+    <div class="control">
+        <textarea id="iwd-osc-comment"
+                  class="iwd-osc-order-comment__input"
+                  rows="3"
+                  data-bind="value: comment, attr: {placeholder: $t('Delivery notes, gift message, etc.')}"></textarea>
+    </div>
+</div>
+<!-- /ko -->

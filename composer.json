@@ -1,30 +1,50 @@
 {
-  "name": "iwd/opc",
-  "description": "Dominate Checkout Open Source",
-  "type": "magento2-module",
-  "version": "6.1.1",
-  "license": [
-    "proprietary"
-  ],
-  "autoload": {
-    "files": [
-      "registration.php"
+    "name": "iwd/opc",
+    "description": "IWD One-Step Checkout: enhances Magento 2's native checkout via chain-safe mixins (no class preferences, no route overrides, no KO template replacements). Inert when disabled or when Hyvä Checkout owns the route.",
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "version": "7.0.0",
+    "authors": [
+        {
+            "name": "IWD Agency",
+            "homepage": "https://www.iwdagency.com"
+        }
     ],
-    "psr-4": {
-      "IWD\\Opc\\": ""
+    "require": {
+        "php": "~8.2.0||~8.3.0||~8.4.0||~8.5.0",
+        "magento/framework": ">=103.0 <104",
+        "magento/module-checkout": ">=100.4 <101",
+        "magento/module-catalog": ">=104.0 <105",
+        "magento/module-quote": ">=101.2 <102",
+        "magento/module-sales": ">=103.0 <104",
+        "magento/module-customer": ">=103.0 <104",
+        "magento/module-newsletter": ">=100.4 <101",
+        "magento/module-store": ">=101.1 <102",
+        "magento/module-config": ">=101.2 <102",
+        "magento/module-backend": ">=102.0 <103",
+        "magento/module-paypal": ">=101.0 <102"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "IWD\\OneStepCheckout\\": ""
+        }
+    },
+    "archive": {
+        "exclude": [
+            "/.idea",
+            "/dist",
+            "/packages",
+            "/.gitignore",
+            "/.gitattributes",
+            "/.phpunit.result.cache",
+            "/releases",
+            "/.DS_Store"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
     }
-  },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://repo.magento.com/"
-    }
-  ],
-  "require": {
-    "magento/module-checkout": "100.*|101.*|102.*|103.*",
-    "magento/module-sales": "100.*|101.*|102.*|103.*",
-    "magento/module-quote": "100.*|101.*|102.*|103.*",
-    "magento/module-payment": "100.*|101.*|102.*|103.*",
-    "php": "~7.1.0|~7.2.0|~7.3.0|~7.4.0|~8.1.0|~8.2.0|~8.3.0"
-  }
 }

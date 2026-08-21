@@ -1,0 +1,23 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+declare(strict_types=1);
+
+/** @var \IWD\OneStepCheckout\ViewModel\CheckoutHeader $viewModel */
+$viewModel = $block->getData('view_model');
+
+if (!$viewModel || !$viewModel->isEnabled() || !$viewModel->isOnePage()) {
+    return;
+}
+?>
+<div class="iwd-osc-express-pay">
+    <div class="iwd-osc-express-pay__divider iwd-osc-express-pay__divider--top">
+        <span><?= $escaper->escapeHtml(__('Express checkout')) ?></span>
+    </div>
+    <div class="iwd-osc-express-pay__buttons"><?= $block->getChildHtml() ?></div>
+    <div class="iwd-osc-express-pay__divider">
+        <span><?= $escaper->escapeHtml(__('or continue below')) ?></span>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ */
+declare(strict_types=1);
+
+/** @var \IWD\OneStepCheckout\ViewModel\CheckoutHeader $viewModel */
+$viewModel = $block->getData('view_model');
+
+if (!$viewModel || !$viewModel->isEnabled() || (!$viewModel->isOnePage() && !$viewModel->isMultiStep())) {
+    return;
+}
+
+$isMultiStep = $viewModel->isMultiStep();
+$sections = $viewModel->isVirtual() ? 2 : 3;
+$rows = $viewModel->isVirtual() ? 2 : 3;
+?>
+<div class="iwd-osc-skeleton"
+     data-mage-init='{"IWD_OneStepCheckout/js/checkout-ready":{}}'
+     aria-hidden="true">
+    <div class="iwd-osc-skeleton__main">
+        <?php if ($isMultiStep): ?>
+            <div class="iwd-osc-skeleton__progress">
+                <span class="iwd-osc-skel-bar iwd-osc-skeleton__step"></span>
+                <span class="iwd-osc-skel-bar iwd-osc-skeleton__step"></span>
+                <span class="iwd-osc-skel-bar iwd-osc-skeleton__step"></span>
+            </div>
+            <div class="iwd-osc-skeleton__section">
+                <div class="iwd-osc-skeleton__section-head">
+                    <span class="iwd-osc-skel-bar iwd-osc-skeleton__num"></span>
+                    <span class="iwd-osc-skel-bar iwd-osc-skeleton__title"></span>
+                </div>
+                <span class="iwd-osc-skel-bar iwd-osc-skeleton__field"></span>
+                <span class="iwd-osc-skel-bar iwd-osc-skeleton__field"></span>
+                <span class="iwd-osc-skel-bar iwd-osc-skeleton__field"></span>
+                <span class="iwd-osc-skel-bar iwd-osc-skeleton__field"></span>
+            </div>
+        <?php else: ?>
+            <?php for ($i = 0; $i < $sections; $i++): ?>
+                <div class="iwd-osc-skeleton__section">
+                    <div class="iwd-osc-skeleton__section-head">
+                        <span class="iwd-osc-skel-bar iwd-osc-skeleton__num"></span>
+                        <span class="iwd-osc-skel-bar iwd-osc-skeleton__title"></span>
+                    </div>
+                    <span class="iwd-osc-skel-bar iwd-osc-skeleton__field"></span>
+                    <span class="iwd-osc-skel-bar iwd-osc-skeleton__field"></span>
+                </div>
+            <?php endfor; ?>
+        <?php endif; ?>
+    </div>
+    <div class="iwd-osc-skeleton__aside">
+        <div class="iwd-osc-skeleton__summary">
+            <span class="iwd-osc-skel-bar iwd-osc-skeleton__summary-title"></span>
+            <?php for ($i = 0; $i < $rows; $i++): ?>
+                <div class="iwd-osc-skeleton__row">
+                    <span class="iwd-osc-skel-bar iwd-osc-skeleton__thumb"></span>
+                    <span class="iwd-osc-skel-bar iwd-osc-skeleton__line"></span>
+                </div>
+            <?php endfor; ?>
+            <span class="iwd-osc-skel-bar iwd-osc-skeleton__total"></span>
+            <span class="iwd-osc-skel-bar iwd-osc-skeleton__cta"></span>
+        </div>
+    </div>
+</div>
