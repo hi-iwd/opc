@@ -7,7 +7,7 @@ define([
     'use strict';
 
     return function (Component) {
-        if (!config.isOnePage()) {
+        if (!config.isActive()) {
             return Component;
         }
 

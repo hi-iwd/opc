@@ -1,5 +1,8 @@
 # Changelog
 
+## 7.0.1
+- Bug fix
+
 ## 7.0.0
 
 Initial release of `IWD_OneStepCheckout`, IWD's one-step checkout for Magento 2 / Adobe Commerce.

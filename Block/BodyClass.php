@@ -24,18 +24,35 @@ class BodyClass extends Template
     protected function _prepareLayout()
     {
         if ($this->config->isEnabled()) {
-            $classes = ['iwd-osc', 'iwd-osc--' . str_replace('_', '-', $this->config->getLayoutMode())];
-
-            if ($this->config->isOnePage() || $this->config->isMultiStep()) {
-                $classes[] = 'iwd-osc-loading';
-            }
-
-            foreach ($classes as $class) {
+            foreach ($this->resolveClasses() as $class) {
                 $this->pageConfig->addBodyClass($class);
             }
         }
 
         return parent::_prepareLayout();
+    }
+
+    /**
+     * A layout may pass an explicit `body_class` string (e.g. the PayPal express
+     * review page); otherwise the default checkout skin classes are applied.
+     *
+     * @return string[]
+     */
+    private function resolveClasses(): array
+    {
+        $custom = (string)$this->getData('body_class');
+
+        if ($custom !== '') {
+            return array_filter(explode(' ', $custom));
+        }
+
+        $classes = ['iwd-osc', 'iwd-osc--' . str_replace('_', '-', $this->config->getLayoutMode())];
+
+        if ($this->config->isOnePage() || $this->config->isMultiStep()) {
+            $classes[] = 'iwd-osc-loading';
+        }
+
+        return $classes;
     }
 
     /**

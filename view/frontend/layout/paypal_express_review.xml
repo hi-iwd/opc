@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <referenceContainer name="head.additional">
+        <block class="Magento\Framework\View\Element\Template"
+               name="iwd_osc_express_design"
+               template="IWD_OneStepCheckout::checkout-design.phtml">
+            <arguments>
+                <argument name="view_model" xsi:type="object">IWD\OneStepCheckout\ViewModel\DesignConfig</argument>
+            </arguments>
+        </block>
+        <block class="IWD\OneStepCheckout\Block\BodyClass" name="iwd_osc_express_body_class">
+            <arguments>
+                <argument name="body_class" xsi:type="string">iwd-osc-express</argument>
+            </arguments>
+        </block>
+    </referenceContainer>
+    <body>
+        <referenceContainer name="header.container">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="iwd_osc_express_secure_badge"
+                   template="IWD_OneStepCheckout::secure-badge.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">IWD\OneStepCheckout\ViewModel\CheckoutHeader</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="iwd_osc_express_footnote"
+                   template="IWD_OneStepCheckout::checkout-footnote.phtml"
+                   after="paypal.express.review">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">IWD\OneStepCheckout\ViewModel\CheckoutHeader</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

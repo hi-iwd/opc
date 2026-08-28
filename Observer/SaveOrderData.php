@@ -44,8 +44,6 @@ class SaveOrderData implements ObserverInterface
             return;
         }
 
-        // Read-once: values are consumed and cleared before any gate so they
-        // can never leak into a later order in the same session.
         $comment = (string)$this->checkoutSession->getData(AbstractOrderFieldsPlugin::SESSION_COMMENT, true);
         $subscribe = (bool)$this->checkoutSession->getData(AbstractOrderFieldsPlugin::SESSION_SUBSCRIBE, true);
         $createAccount = (bool)$this->checkoutSession->getData(AbstractOrderFieldsPlugin::SESSION_CREATE_ACCOUNT, true);
