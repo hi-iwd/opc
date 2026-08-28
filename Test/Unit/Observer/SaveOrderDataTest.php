@@ -91,8 +91,10 @@ class SaveOrderDataTest extends TestCase
         );
     }
 
-    public function testDoesNothingWhenDisabledButStillClearsSession(): void
+    public function testDisabledModuleIsFullyTransparent(): void
     {
+        // When the module is off it must be a complete no-op - it does not even
+        // read or clear the checkout session.
         $this->config->method('isEnabled')->willReturn(false);
         $this->stashSession('Stale comment', true);
 
@@ -107,7 +109,7 @@ class SaveOrderDataTest extends TestCase
 
         $this->observer->execute($this->eventWith($order));
 
-        $this->assertSessionCleared();
+        $this->assertSame([], $this->clearedKeys);
     }
 
     public function testDoesNothingWhenOrderMissing(): void
@@ -121,7 +123,7 @@ class SaveOrderDataTest extends TestCase
 
         $this->observer->execute($this->eventWith(null));
 
-        $this->assertSessionCleared();
+        $this->assertSame([], $this->clearedKeys);
     }
 
     public function testSavesCommentSubscribesAndCreatesGuestAccount(): void

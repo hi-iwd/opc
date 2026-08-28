@@ -368,14 +368,22 @@ class LayoutProcessorPluginTest extends TestCase
         $this->assertSame('progressBar', $checkout['iwd_multistep_progress']['displayArea']);
         $this->assertArrayHasKey('iwd_multistep_summary', $steps);
         $this->assertArrayHasKey('iwd_place_order', $summary);
+        // Payment-step Place Order (the mobile sticky Pay bar) is present too,
+        // so the primary action is on the payment step, not only the summary.
+        $this->assertArrayHasKey('iwd_place_order_sticky', $payment);
+        $this->assertSame('afterMethods', $payment['iwd_place_order_sticky']['displayArea']);
         // No one_page numbered sections in multi_step.
         $this->assertArrayNotHasKey('iwd_section_contact', $shipping);
         $this->assertArrayNotHasKey('iwd_payment_locked', $payment);
-        // Guest physical: newsletter relocates under the contact email in the
-        // shipping (Information) step, NOT in payment.
-        $this->assertArrayHasKey('iwd_newsletter', $shipping);
-        $this->assertSame('customer-email', $shipping['iwd_newsletter']['displayArea']);
-        $this->assertArrayNotHasKey('iwd_newsletter', $payment);
+        // Guest physical: the "Create an account" opt-in sits by the contact
+        // email in the shipping (Information) step.
+        $this->assertArrayHasKey('iwd_create_account', $shipping);
+        $this->assertSame('customer-email', $shipping['iwd_create_account']['displayArea']);
+        // Newsletter lives in the payment step under the order comment, NOT in
+        // the Information step.
+        $this->assertArrayNotHasKey('iwd_newsletter', $shipping);
+        $this->assertArrayHasKey('iwd_newsletter', $payment);
+        $this->assertSame('afterMethods', $payment['iwd_newsletter']['displayArea']);
         // Free order-fields still apply.
         $this->assertArrayHasKey('iwd_order_comment', $payment);
     }
@@ -397,6 +405,9 @@ class LayoutProcessorPluginTest extends TestCase
         $this->assertArrayHasKey('iwd_newsletter', $payment);
         $this->assertSame('afterMethods', $payment['iwd_newsletter']['displayArea']);
         $this->assertArrayNotHasKey('iwd_newsletter', $this->shippingChildren($result));
+        // The "Create an account" opt-in also lands below the payment methods.
+        $this->assertArrayHasKey('iwd_create_account', $payment);
+        $this->assertSame('afterMethods', $payment['iwd_create_account']['displayArea']);
     }
 
     public function testMultiStepLoggedInAddsIdentityCard(): void

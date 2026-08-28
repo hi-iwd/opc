@@ -9,7 +9,9 @@ define([
     var SOURCES = ['PAYPAL', 'VENMO', 'PAYLATER'];
 
     return function (Wrapper) {
-        if (!config.isOnePage()) {
+        //  Applies in one_page AND multi_step so the express-pay buttons render
+        //  identically (the custom funding-button grid) in both modes.
+        if (!config.isOnePage() && !config.isMultiStep()) {
             return Wrapper;
         }
         var nativeRender = Wrapper.renderPayPalButtons;

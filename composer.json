@@ -3,7 +3,7 @@
     "description": "IWD One-Step Checkout: enhances Magento 2's native checkout via chain-safe mixins (no class preferences, no route overrides, no KO template replacements). Inert when disabled or when Hyvä Checkout owns the route.",
     "type": "magento2-module",
     "license": "OSL-3.0",
-    "version": "7.0.0",
+    "version": "7.0.1",
     "authors": [
         {
             "name": "IWD Agency",

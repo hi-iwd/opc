@@ -1,10 +1,11 @@
 define([
+    'ko',
     'uiComponent',
     'Magento_Checkout/js/model/quote',
     'IWD_OneStepCheckout/js/model/multistep-state',
     'IWD_OneStepCheckout/js/model/config',
     'mage/translate'
-], function (Component, quote, state, config, $t) {
+], function (ko, Component, quote, state, config, $t) {
     'use strict';
 
     return Component.extend({
@@ -13,6 +14,8 @@ define([
         },
 
         initialize: function () {
+            var self = this;
+
             this._super();
             this.currentStep = state.currentStep;
             this.steps = [
@@ -20,6 +23,21 @@ define([
                 {code: 'shipping', label: $t('Shipping')},
                 {code: 'payment', label: $t('Payment')}
             ];
+            this.totalSteps = this.steps.length;
+
+            //  Compact "Step X of N" + current label, for the mobile bar.
+            this.currentIndex = ko.computed(function () {
+                return state.order.indexOf(state.currentStep()) + 1;
+            });
+            this.currentLabel = ko.computed(function () {
+                var code = state.currentStep(),
+                    match = self.steps.filter(function (step) {
+                        return step.code === code;
+                    })[0];
+
+                return match ? match.label : '';
+            });
+
             state.init();
 
             return this;

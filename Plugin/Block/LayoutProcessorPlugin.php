@@ -387,9 +387,6 @@ class LayoutProcessorPlugin
             ];
         }
 
-        // Contact section (Information step) is auth-dependent, mirroring one_page.
-        // The customer-email region lives in the shipping step for physical carts
-        // but in the payment step for virtual carts, so the contact bits follow it.
         $isVirtual = $this->isVirtualQuote();
         $shippingAddress = &$this->childrenRef(
             $jsLayout,
@@ -405,39 +402,31 @@ class LayoutProcessorPlugin
 
         if (!$this->httpContext->getValue(CustomerContext::CONTEXT_AUTH)) {
             if ($isVirtual) {
-                // Newsletter opt-in goes below the payment methods, not in the
-                // customer-email region (which would re-render the email field
-                // and prematurely flag it as required).
                 if (is_array($payment)) {
-                    $payment['iwd_newsletter'] = [
-                        'component' => self::NEWSLETTER_COMPONENT,
+                    $payment['iwd_create_account'] = [
+                        'component' => self::CREATE_ACCOUNT_COMPONENT,
                         'displayArea' => 'afterMethods',
-                        'sortOrder' => 20,
+                        'sortOrder' => 15,
                     ];
                 }
             } elseif (is_array($contactRegion)) {
-                $contactRegion['iwd_newsletter'] = [
-                    'component' => self::NEWSLETTER_COMPONENT,
-                    'displayArea' => 'customer-email',
-                    'sortOrder' => 200,
-                ];
+                $contactRegion['iwd_create_account'] = $this->createAccountNode();
             }
-        } else {
-            if (is_array($contactRegion)) {
-                $contactRegion['iwd_customer_identity'] = [
-                    'component' => self::CUSTOMER_IDENTITY_COMPONENT,
-                    'displayArea' => 'customer-email',
-                    'sortOrder' => 110,
-                ];
-            }
+        } elseif (is_array($contactRegion)) {
+            // Logged-in: a Contact identity card replaces the email field.
+            $contactRegion['iwd_customer_identity'] = [
+                'component' => self::CUSTOMER_IDENTITY_COMPONENT,
+                'displayArea' => 'customer-email',
+                'sortOrder' => 110,
+            ];
+        }
 
-            if (is_array($payment)) {
-                $payment['iwd_newsletter'] = [
-                    'component' => self::NEWSLETTER_COMPONENT,
-                    'displayArea' => 'afterMethods',
-                    'sortOrder' => 20,
-                ];
-            }
+        if (is_array($payment)) {
+            $payment['iwd_newsletter'] = [
+                'component' => self::NEWSLETTER_COMPONENT,
+                'displayArea' => 'afterMethods',
+                'sortOrder' => 20,
+            ];
         }
 
         // Completed-step summary cards at the top of the main column.
@@ -447,6 +436,14 @@ class LayoutProcessorPlugin
             $steps['iwd_multistep_summary'] = [
                 'component' => self::MULTISTEP_SUMMARY_COMPONENT,
                 'sortOrder' => 0,
+            ];
+        }
+
+        if (is_array($payment)) {
+            $payment['iwd_place_order_sticky'] = [
+                'component' => self::PLACE_ORDER_COMPONENT,
+                'displayArea' => 'afterMethods',
+                'sortOrder' => 30,
             ];
         }
 
